@@ -11,7 +11,7 @@ float kwh_cumule_in    = 0.0;
 float puissance_reelle = 0.0;
 float cosinus_phi      = 0.0;
 
-unsigned long previous_millis = 0;   // 2 création de la variable "previous_millis" qui garde en mémoire le temps qui s'écoule en millièmes de seconde"
+unsigned long previous_millis = 0;
 
 //-----------------------INITIALISATION DU PROGRAMME-------------------------------------------------
 
@@ -20,10 +20,10 @@ void setup()
   // ### Etalonnage ###
   // Serial.begin(9600);
 
-  emon.voltage(0, 208, 1.7);         // 1 Initialisation du Voltage (Pin A0, Valeur à changer pour etalonnage (+/-357 pour 6v et +/- 190 pour 12v))
-  emon.current(2, 27);             // 1 Initialisation du Courant en ampère ( Pin A2, Valeur à changer lors de l'etalonnage)
+  emon.voltage(0, 208, 1.7);
+  emon.current(2, 27); 
 
-  lcd.init();                         // 2 initialisation de l'afficheur LCD
+  lcd.init();
   lcd.backlight();
 
   //1ere ligne
@@ -78,25 +78,25 @@ void loop()
   cosinus_phi = emon.powerFactor;
   
   // ### Etalonnage ###
-  // float verif_voltage    = emon.Vrms;        //1 creation de la variable "volts moyen" (mesurable avec un voltmètre pour l'etalonnage)
-  // float verif_ampere     = emon.Irms;        //1 creation de la variable "Ampères Moyen" (mesurable avec une pince ampèremétrique pour l'etalonnage))
+  // float verif_voltage    = emon.Vrms; 
+  // float verif_ampere     = emon.Irms; 
 
  //--------------------------Etalonnage des volts et ampères sans LCD--------------------------------------
 
   // ### Etalonnage ###
-  //  Serial.print("Est-ce le bon voltage? ");      // 1 envoyer vers l'ordinateur le texte " Est-ce le bon voltage? "
-  //  Serial.print(verif_voltage);                  // 1 envoyer vers l'ordinateur la valeur "verif_voltage (Vrms)"
-  //  Serial.print(" V  ");                         // 1 envoyer vers l'ordinateur le caractère "V"
-  //  Serial.print(verif_ampere);                   // 1 envoyer vers l'ordinateur la valeur "verif_voltage (Vrms)"                    
-  //  Serial.print(" A ");                          // 1 envoyer vers l'ordinateur le caractère "A"
+  //  Serial.print("Est-ce le bon voltage? ");
+  //  Serial.print(verif_voltage); 
+  //  Serial.print(" V  ");
+  //  Serial.print(verif_ampere);                  
+  //  Serial.print(" A ");
   //  Serial.print("\n");
      
  //----------------POUR AVOIR LES W, Wh et kWh de l'élélectricité qui rentre et de l'électricité qui sort de ma maison------------------
   
-  if (puissance_reelle >= 0)                      // 2 Si la puissance reelle est positive, (c'est que je consomme et qu'a priori il n'y a pas de soleil)
-  { 
-    w_instantane_in  = puissance_reelle;         // 2 alors on dit que la puissance instantanée entrante (in) est egale à la puissance reelle.
-    w_instantane_out = 0.0;                     // 2 dans ces conditions de consommation (positive) , la valeur de la surproduction est nulle.
+  if (puissance_reelle >= 0) 
+  {
+    w_instantane_in  = puissance_reelle;
+    w_instantane_out = 0.0;
 
     kwh_cumule_in += (puissance_reelle / 1000) * (millis() - previous_millis) / 3600000;
 
@@ -104,10 +104,10 @@ void loop()
     digitalWrite(7, LOW);
     digitalWrite(10, LOW);
   }  
-  else                                             // 2 SINON (c'est que la puissance_reelle est négative)
+  else
   {
-    w_instantane_in = 0.0;                       // 2 idem au dessus
-    w_instantane_out = abs(puissance_reelle);    // 2 idem au dessus
+    w_instantane_in = 0.0;
+    w_instantane_out = abs(puissance_reelle);
 
     if (w_instantane_out < 100) {
         digitalWrite(4, LOW);
@@ -127,8 +127,7 @@ void loop()
   }
 
   previous_millis = millis();
-    
-// --------------------ECRIRE SUR LCD ET POUR CHANGER LES VALEUR DuLCD AVEC UN BOUTON POUSSOIR------------------------------------------------
+  
   //1ere ligne
   lcd.setCursor(6, 0);
   lcd.print("     ");
